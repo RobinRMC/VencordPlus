@@ -41,10 +41,13 @@
         "@intrnl/xxhash64": "^0.1.2",
         "@vap/core": "0.0.12",
         "@vap/shiki": "0.10.5",
+        "buttplug": "^3.2.2",
         "fflate": "^0.8.2",
         "gifenc": "github:mattdesl/gifenc#64842fca317b112a8590f8fef2bf3825da8f6fe3",
         "monaco-editor": "^0.52.2",
         "nanoid": "^5.1.5",
+        "openai": "^5.12.2",
+        "socket.io": "^4.8.1",
         "virtual-merge": "^1.0.1"
     },
     "devDependencies": {

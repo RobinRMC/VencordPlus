@@ -21,6 +21,7 @@ import * as t from "@vencord/discord-types";
 import { filters, mapMangledModuleLazy, waitFor } from "@webpack";
 
 import { waitForComponent } from "./internal";
+import { React } from "./react";
 
 
 const FormTitle = waitForComponent<t.FormTitle>("FormTitle", filters.componentByCode('["defaultMargin".concat', '="h5"'));
@@ -51,7 +52,32 @@ const Tooltips = mapMangledModuleLazy(".tooltipTop,bottom:", {
 export const Tooltip = LazyComponent(() => Tooltips.Tooltip);
 export const TooltipContainer = LazyComponent(() => Tooltips.TooltipContainer);
 
-export const TextInput = waitForComponent<t.TextInput>("TextInput", filters.componentByCode(".error]:this.hasError()"));
+// TextInput: Discord occasionally changes internals; try multiple signatures and provide a safe fallback
+let __ResolvedTextInput: t.TextInput | undefined;
+// Old signature
+waitFor(filters.componentByCode(".error]:this.hasError()"), (v: any) => __ResolvedTextInput = v, { isIndirect: true });
+// Newer builds often include accessibility role on the input
+waitFor(filters.componentByCode('role:"textbox"'), (v: any) => __ResolvedTextInput = v, { isIndirect: true });
+// Alternative match: common input props wiring patterns
+waitFor(filters.componentByCode("onChange:", "onFocus:", "onBlur:"), (v: any) => __ResolvedTextInput = v, { isIndirect: true });
+
+export const TextInput = LazyComponent(() => (__ResolvedTextInput ?? ((props: any) => {
+    const { value, onChange, placeholder, type = "text", disabled, max, min, className, name } = props ?? {};
+    // Basic input fallback to avoid crashing settings if the real component isn't found yet
+    return React
+        ? React.createElement("input", {
+            type,
+            value,
+            onChange: (e: any) => onChange?.(e?.target?.value),
+            placeholder,
+            disabled,
+            max,
+            min,
+            className,
+            name
+        })
+        : null;
+}) as unknown as t.TextInput));
 export const TextArea = waitForComponent<t.TextArea>("TextArea", filters.componentByCode("this.getPaddingRight()},id:"));
 export const Text = waitForComponent<t.Text>("Text", filters.componentByCode('case"always-white"'));
 export const Heading = waitForComponent<t.Heading>("Heading", filters.componentByCode(">6?{", "variant:"));
