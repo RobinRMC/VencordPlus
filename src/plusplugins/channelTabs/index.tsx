@@ -40,7 +40,7 @@ export default definePlugin({
     authors: [{
         name: "keifufu",
         id: 469588398110146590n,
-    }, Devs.TheSun, Devs.TheKodeToad, Devs.Nickyux],
+    }, Devs.TheSun, Devs.TheKodeToad, Devs.Nickyux, EquicordDevs.DiabeloDEV],
     dependencies: ["ContextMenuAPI"],
     contextMenus: {
         "channel-mention-context": contextMenuPatch,
@@ -83,8 +83,8 @@ export default definePlugin({
         {
             find: "(this,\"handleMessageClick\"",
             replacement: {
-                match: /(?<=(\i)\.isSearchHit\));(?=null!=(\i))/,
-                replace: ";if ($1.ctrlKey) return $self.open($2);"
+                match: /(\i)\.stopPropagation.{0,50}(?=null!=(\i))/,
+                replace: "$&if ($1.ctrlKey) return $self.open($2);"
             }
         },
         // prevent issues with the pins/inbox popouts being too tall
@@ -105,12 +105,25 @@ export default definePlugin({
         currentChannel: BasicChannelTabsProps,
         children: JSX.Element;
     }) {
+        const tabsContainer = (
+            <ErrorBoundary>
+                <ChannelsTabsContainer {...currentChannel} />
+            </ErrorBoundary>
+        );
+
+        if (settings.store.tabBarPosition === "top") {
+            return (
+                <>
+                    {tabsContainer}
+                    {children}
+                </>
+            );
+        }
+
         return (
             <>
-                <ErrorBoundary>
-                    <ChannelsTabsContainer {...currentChannel} />
-                </ErrorBoundary>
                 {children}
+                {tabsContainer}
             </>
         );
     },

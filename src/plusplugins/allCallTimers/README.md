@@ -10,8 +10,3 @@ Original author: [AllCallTimersDiscordPlugin](https://github.com/Max-Herbold/All
 <img height="346rem" alt="image" src="https://github.com/Max-Herbold/Vencord/assets/49804267/b30b7703-b8d3-4703-b70b-e6a711eb08a4">
 <img width="424rem" alt="image" src="https://github.com/Max-Herbold/Vencord/assets/49804267/299916e0-a05d-4b9a-b4ed-901bd39ab728">
 <br/>
-
-Potential improvements:
-
--   [ ] Add a log to each voice channel of join/leave and potentially mute/unmute events
--   [ ] Add a timer to each user in private voice calls

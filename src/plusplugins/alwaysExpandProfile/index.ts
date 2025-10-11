@@ -10,23 +10,17 @@ import definePlugin from "@utils/types";
 import { User } from "@vencord/discord-types";
 
 export default definePlugin({
-    name: "AlwaysExpandProfile",
-    description: "Always display a user's full popout",
+    name: "AlwaysExpandProfiles",
+    description: "Always expands profile popouts to the full modal",
     authors: [EquicordDevs.thororen],
     patches: [
         {
-            find: '"UserProfilePopout"})',
+            find: '"view-profile"',
             replacement: {
-                match: /(?<=user:(\i).*?"PRESS_VIEW_PROFILE".{0,150})return/,
-                replace: "return $self.openUserProfile($1);"
-            }
-        },
-        {
-            find: '"BotUserProfilePopout"',
-            replacement: {
-                match: /(?<=user:(\i).*?"PRESS_VIEW_PROFILE".{0,100})return/,
-                replace: "return $self.openUserProfile($1);"
-            }
+                match: /(user:(\i).*?"PRESS_VIEW_PROFILE".{0,200})return/,
+                replace: "$1return $self.openUserProfile($2);"
+            },
+            all: true
         },
     ],
     openUserProfile(user: User) {

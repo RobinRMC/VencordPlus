@@ -133,7 +133,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "ContentWarning",
     authors: [Devs.camila314],
-    description: "Allows you to specify trigger words that will be blurred by default. Clicking on the blurred content will reveal it",
+    description: "Allows you to specify trigger words that will be blurred by default. Hovering over the blurred content will reveal it",
     settings,
     patches: [
         {

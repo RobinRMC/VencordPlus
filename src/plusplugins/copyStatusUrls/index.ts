@@ -13,7 +13,7 @@ import { Toasts } from "@webpack/common";
 
 interface MakeContextMenuProps {
     user: User,
-    activity: any
+    activity: any;
 }
 
 // This is an API call if the result is not cached
@@ -24,9 +24,10 @@ export default definePlugin({
     name: "CopyStatusUrls",
     description: "Copy a user's status' URL when you right-click it",
     authors: [Devs.sadan],
+
     patches: [
         {
-            find: "?\"PRESS_WATCH_ON_CRUNCHYROLL_BUTTON\"",
+            find: '?"PRESS_WATCH_ON_CRUNCHYROLL_BUTTON"',
             replacement: {
                 match: /(?=onClick)(?=.*index:(\i))/,
                 replace: "onContextMenu: $self.makeContextMenu(arguments[0], $1),"
@@ -36,7 +37,7 @@ export default definePlugin({
 
     makeContextMenu(props: MakeContextMenuProps, index: number) {
         return async () => {
-        try {
+            try {
                 const { button_urls } = await getMetadataFromApi(props.activity, props.user.id);
                 if (!button_urls[index]) {
                     throw new Error("button_urls does not contain index");
@@ -64,4 +65,3 @@ export default definePlugin({
         };
     }
 });
-

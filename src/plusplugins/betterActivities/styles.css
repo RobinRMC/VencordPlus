@@ -62,7 +62,7 @@
 }
 
 .vc-bactivities-controls [class^="vc-activities-caret-"]:hover:not(.disabled) {
-    background: var(--border-subtle);
+    background: var(--input-border);
 }
 
 .vc-bactivities-controls .carousel {
@@ -91,5 +91,5 @@
 }
 
 .vc-bactivities-controls-tooltip {
-    --background-floating: var(--base-lower);
+    --background-floating: var(--background-secondary);
 }
